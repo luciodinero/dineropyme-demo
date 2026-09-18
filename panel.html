@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Panel de gestión · Salón Raíz</title>
+<meta name="description" content="Demo del panel de gestión de citas para el negocio — DineroPyme." />
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%231f3a5f%22/><text x=%2250%22 y=%2266%22 font-size=%2258%22 font-family=%22Arial%22 fill=%22white%22 text-anchor=%22middle%22>R</text></svg>" />
+</head>
+<body class="owner-body">
+
+<div class="demo-banner">
+  Demo interactiva para el negocio · esta es la vista del empleado/dueña, no la del cliente ·
+  <a href="index.html">Volver al inicio</a>
+</div>
+
+<div id="login-screen" style="max-width:380px;margin:60px auto;padding:0 16px">
+  <div class="card">
+    <div class="step-label">Acceso al panel</div>
+    <p class="footer-note" style="text-align:left;margin:0 0 14px">
+      Este panel es privado del negocio: solo puede entrar quien tenga estas credenciales.
+    </p>
+    <label>Email</label>
+    <input type="email" id="login-email" autocomplete="username" />
+    <label>Contraseña</label>
+    <input type="password" id="login-password" autocomplete="current-password" />
+    <p id="login-error" class="footer-note" style="color:#b3261e;display:none;text-align:left;margin:8px 0 0"></p>
+    <button class="primary" id="login-submit" style="width:100%;margin-top:16px">Entrar</button>
+  </div>
+</div>
+
+<div id="app-shell" style="display:none">
+<header class="owner-top">
+  <div>
+    <div class="brand-row">
+      <div class="brand-mark">R</div>
+      <h1 id="biz-name">Panel de gestión</h1>
+    </div>
+    <nav class="owner-tabs">
+      <button class="tab-btn active" data-tab="agenda">Agenda</button>
+      <button class="tab-btn" data-tab="settings">Servicios y horario</button>
+    </nav>
+  </div>
+  <button class="btn-new-appt" id="btn-new-appt">+ Nueva cita</button>
+</header>
+
+<main class="owner-main">
+
+  <!-- ================= AGENDA ================= -->
+  <section id="tab-agenda">
+    <div class="stats-row">
+      <div class="stat-tile">
+        <span class="stat-value" id="stat-day-count">–</span>
+        <small id="stat-day-count-label">Citas</small>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-value" id="stat-day-revenue">–</span>
+        <small id="stat-day-revenue-label">Ingresos previstos</small>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-value" id="stat-next">–</span>
+        <small>Próxima cita</small>
+      </div>
+    </div>
+
+    <div class="owner-layout">
+      <div>
+        <div class="week-strip" id="week-strip"></div>
+        <div id="day-agenda"></div>
+      </div>
+
+      <div class="card digest-card">
+        <div class="digest-head">
+          <div class="step-label" style="margin-bottom:2px">Resumen diario</div>
+          <span class="footer-note" id="digest-status" style="margin:0"></span>
+        </div>
+        <p class="footer-note" style="margin:6px 0 10px;text-align:left">
+          Se envía solo a la hora que elijas, automáticamente y desde la nube — funciona aunque tengas el
+          ordenador apagado. El envío en sí sigue simulado (no es WhatsApp real todavía).
+        </p>
+
+        <div class="digest-time-row">
+          <label style="margin-top:0">Hora de envío</label>
+          <input type="time" id="digest-time-input" />
+          <button class="btn-remind" id="digest-time-save">Guardar hora</button>
+        </div>
+
+        <div class="preview-box" id="digest-preview">Cargando…</div>
+        <button class="btn-remind" id="digest-send-now" style="margin-top:10px;width:100%">Enviar ahora</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AJUSTES ================= -->
+  <section id="tab-settings" style="display:none">
+    <div class="card">
+      <div class="step-label">Datos del negocio</div>
+      <label>Nombre</label>
+      <input type="text" id="set-name" />
+      <label>Dirección</label>
+      <input type="text" id="set-address" />
+      <label>Teléfono</label>
+      <input type="text" id="set-phone" />
+      <div class="settings-row">
+        <div>
+          <label>Abre a las</label>
+          <input type="time" id="set-open" />
+        </div>
+        <div>
+          <label>Cierra a las</label>
+          <input type="time" id="set-close" />
+        </div>
+        <div>
+          <label>Día cerrado</label>
+          <select id="set-closed-weekday">
+            <option value="0">Domingo</option>
+            <option value="1">Lunes</option>
+            <option value="2">Martes</option>
+            <option value="3">Miércoles</option>
+            <option value="4">Jueves</option>
+            <option value="5">Viernes</option>
+            <option value="6">Sábado</option>
+          </select>
+        </div>
+      </div>
+      <button class="primary" id="save-business" style="max-width:240px">Guardar cambios</button>
+    </div>
+
+    <div class="card">
+      <div class="step-label">Reservas online para clientes</div>
+      <p class="footer-note" style="text-align:left;margin:0 0 12px">
+        Esta herramienta es para vosotros: el empleado agenda todas las citas desde el panel.
+        Si además quieres que tus propios clientes puedan reservar ellos mismos desde una página
+        (sin verte a ti ni el panel), puedes activar esa página aparte aquí.
+      </p>
+      <label style="display:flex;align-items:center;gap:10px;font-weight:600;margin-top:0">
+        <input type="checkbox" id="set-online-booking" style="width:auto;margin:0" />
+        Activar página de reservas online para clientes
+      </label>
+      <div id="booking-link-row" style="margin-top:12px;display:none">
+        <a href="reservas.html" target="_blank" class="tile-cta" style="display:inline-block">Ver la página de reservas de clientes →</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="step-label">Servicios</div>
+      <div id="service-manage-list"></div>
+
+      <div class="new-service-row">
+        <input type="text" id="new-svc-name" placeholder="Nombre del servicio" />
+        <input type="number" id="new-svc-duration" placeholder="Min." />
+        <input type="number" id="new-svc-price" placeholder="€" />
+        <button class="btn-remind" id="add-service">Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="step-label">Demo</div>
+      <p class="footer-note" style="text-align:left;margin:0 0 6px">
+        Esta demo guarda los datos en la nube (no solo en este navegador). Puedes reiniciarla a su estado
+        inicial en cualquier momento.
+      </p>
+      <button class="reset-link" id="reset-demo-btn">Reiniciar datos de la demo</button>
+      <button class="reset-link" id="logout-btn" style="margin-left:16px">Cerrar sesión</button>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<!-- ================= MODAL: nueva cita / editar ================= -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <h3 id="modal-title">Nueva cita</h3>
+
+    <label>Servicio</label>
+    <select id="m-service"></select>
+
+    <label>Día</label>
+    <input type="date" id="m-date" />
+
+    <label>Hora</label>
+    <div class="slot-grid" id="m-slots"></div>
+
+    <label>Cliente</label>
+    <input type="text" id="m-name" placeholder="Nombre" />
+    <input type="tel" id="m-phone" placeholder="Teléfono" style="margin-top:8px" />
+
+    <label>Recordatorio por WhatsApp (simulado)</label>
+    <select id="m-reminder-offset">
+      <option value="30">30 minutos antes</option>
+      <option value="60" selected>1 hora antes</option>
+      <option value="360">6 horas antes</option>
+      <option value="1440">1 día antes</option>
+    </select>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" id="m-cancel">Cancelar</button>
+      <button class="primary" id="m-save" style="margin-top:0">Guardar cita</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/dates.js"></script>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/panel.js"></script>
+</body>
+</html>
