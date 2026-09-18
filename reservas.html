@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reserva tu cita · Salón Raíz</title>
+<meta name="description" content="Demo de reservas online para negocios con cita previa — DineroPyme." />
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%231f3a5f%22/><text x=%2250%22 y=%2266%22 font-size=%2258%22 font-family=%22Arial%22 fill=%22white%22 text-anchor=%22middle%22>R</text></svg>" />
+</head>
+<body>
+
+<div class="demo-banner">
+  Demo interactiva · los datos se guardan en la nube (no solo en este navegador), no se envía nada de verdad ·
+  <a href="index.html">Volver al inicio</a>
+</div>
+
+<header class="top">
+  <span class="eyebrow">Página de reservas del negocio</span>
+  <h1 id="biz-name">Cargando…</h1>
+  <p class="tagline" id="biz-tagline"></p>
+  <p class="meta" id="biz-meta"></p>
+</header>
+
+<main>
+  <div class="card" id="step-disabled" style="display:none">
+    <p class="footer-note" style="margin:0;font-size:0.95rem;color:var(--ink-soft)">
+      Este negocio gestiona sus citas internamente y no tiene activadas las reservas online
+      para clientes en este momento. Contacta directamente con el negocio para reservar.
+    </p>
+  </div>
+
+  <div class="card" id="step-service">
+    <div class="step-label">1. Elige el servicio</div>
+    <div class="service-list" id="service-list"></div>
+  </div>
+
+  <div class="card" id="step-date" style="display:none">
+    <div class="step-label">2. Elige día y hora</div>
+    <label for="date-input">Día</label>
+    <input type="date" id="date-input" />
+    <div id="slots-wrap" style="margin-top:14px">
+      <div class="slot-grid" id="slot-grid"></div>
+      <p id="no-slots" class="footer-note" style="display:none;margin-top:8px">No quedan huecos ese día. Prueba otra fecha.</p>
+    </div>
+  </div>
+
+  <div class="card" id="step-details" style="display:none">
+    <div class="step-label">3. Tus datos</div>
+    <label for="name-input">Nombre</label>
+    <input type="text" id="name-input" placeholder="Cómo te llamas" />
+    <label for="phone-input">Teléfono (para el recordatorio)</label>
+    <input type="tel" id="phone-input" placeholder="600 000 000" />
+    <button class="primary" id="confirm-btn" disabled>Confirmar cita</button>
+  </div>
+
+  <div class="card confirmation" id="step-confirmed" style="display:none">
+    <div class="check">✓</div>
+    <h2>¡Cita confirmada!</h2>
+    <p id="confirm-summary"></p>
+    <p class="footer-note">En la app real, te llegaría un recordatorio por WhatsApp antes de la cita.</p>
+    <button class="primary" id="book-another-btn" style="background:transparent;color:var(--accent);border:1px solid var(--line);margin-top:14px">Reservar otra cita de ejemplo</button>
+  </div>
+
+  <p class="footer-note">Página propia del negocio · sin comisiones · sin marketplace de terceros</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/dates.js"></script>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/reservas.js"></script>
+</body>
+</html>
